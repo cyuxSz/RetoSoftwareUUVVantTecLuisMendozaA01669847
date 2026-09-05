@@ -5,8 +5,7 @@
 #include "std_msgs/msg/bool.hpp"
 
 using namespace std::chrono_literals; // permite escribir "2s" en vez de rclcpp::Duration(2s)
-using std_msgs::msg::Bool;
-using std_msgs::msg::String; //para escribir unicamente bool o string en lugar de std_msgs::msg::(bool o string) mas compacto de leer
+using std_msgs::msg::Bool; //para escribir unicamente bool o string en lugar de std_msgs::msg::(bool o string) mas compacto de leer
 
 // Un nodo en rclcpp se define como una clase que hereda de rclcpp::Node.
 class SensorSimulado : public rclcpp::Node {
