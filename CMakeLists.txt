@@ -10,6 +10,18 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+
+add_executable(sensor_simulado src/sensor_simulado.cpp)
+ament_target_dependencies(sensor_simulado rclcpp std_msgs)
+
+add_executable(water_leak_detector_node src/water_leak_detector_node.cpp)
+ament_target_dependencies(water_leak_detector_node rclcpp std_msgs)
+
+install(TARGETS
+  sensor_simulado
+  water_leak_detector_node
+  DESTINATION lib/${PROJECT_NAME})
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
