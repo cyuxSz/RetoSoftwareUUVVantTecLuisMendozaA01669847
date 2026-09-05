@@ -5,12 +5,14 @@
 #include "std_msgs/msg/bool.hpp"
 
 using namespace std::chrono_literals; // permite escribir "2s" en vez de rclcpp::Duration(2s)
+using std_msgs::msg::Bool;
+using std_msgs::msg::String; //para escribir unicamente bool o string en lugar de std_msgs::msg::(bool o string) mas compacto de leer
 
 // Un nodo en rclcpp se define como una clase que hereda de rclcpp::Node.
 class SensorSimulado : public rclcpp::Node {
 public:
     SensorSimulado() : Node("sensor_simulado") {
-        publicador_ = this->create_publisher<std_msgs::msg::Bool>("water_sensor", 10); // crea un publicador de mensajes booleanos en el topico "water_sensor"
+        publicador_ = this->create_publisher<Bool>("water_sensor", 10); // crea un publicador de mensajes booleanos en el topico "water_sensor"
 
         // create_wall_timer(intervalo, funcion_callback) ejecuta funcion_callback cada "intervalo" de tiempo, de forma repetida, mientras el nodo este vivo.
         // std::bind() conecta el temporizador con el metodo publicar_lectura() de esta misma clase.
@@ -20,7 +22,7 @@ public:
 
 private:
     void publicar_lectura() {
-        auto mensaje = std_msgs::msg::Bool();
+        auto mensaje = Bool();
 
         // Alterna entre falso y verdadero en cada llamada, para simular que a veces hay fuga y a veces no.
         // hay_fuga_ es una variable de instancia que recuerda su valor entre llamadas.
@@ -34,7 +36,7 @@ private:
                     mensaje.data ? "true (agua detectada)" : "false (sin agua)");
     }
 
-    rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publicador_;
+    rclcpp::Publisher<Bool>::SharedPtr publicador_;
     rclcpp::TimerBase::SharedPtr temporizador_;
     bool hay_fuga_ = false;
 };
