@@ -32,7 +32,7 @@ private:
         // RCLCPP_INFO es la forma estandar de imprimir un mensaje de registro en ROS 2, en vez de usar std::cout
         //  this->get_logger() asocia el mensaje con el nombre de este nodo en la salida de consola.
         RCLCPP_INFO(this->get_logger(), "Sensor simulado: %s",
-                    mensaje.data ? "true (agua detectada)" : "false (sin agua)");
+                    mensaje.data ? "Agua detectada" : "Sin agua");
     }
 
     rclcpp::Publisher<Bool>::SharedPtr publicador_;
