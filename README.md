@@ -27,3 +27,17 @@ cd ~/ros2_ws   # reemplaza esto por la ruta de tu workspace
 colcon build --packages-select water_leak_detector
 source install/setup.bash
 ```
+
+## Ejecutar
+
+Desde cualquier terminal donde ya hayas hecho previamente `source install/setup.bash`:
+
+Terminal 1:
+```bash
+ros2 run water_leak_detector sensor_simulado
+```
+
+Terminal 2:
+```bash
+ros2 run water_leak_detector water_leak_detector_node
+```
