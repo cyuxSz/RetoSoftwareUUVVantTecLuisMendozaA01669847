@@ -35,10 +35,10 @@ private:
         // si el sensor reporta "true", hay fuga.
         if (lectura->data) {
             mensaje_salida.data = "LEAK";
-            RCLCPP_WARN(this->get_logger(), "Fuga detectada. Estado: LEAK");
+            RCLCPP_WARN(this->get_logger(), "Fuga detectada");
         } else {
             mensaje_salida.data = "OK";
-            RCLCPP_INFO(this->get_logger(), "Sin fuga. Estado: OK");
+            RCLCPP_INFO(this->get_logger(), "Sin fuga");
         }
         // RCLCPP_WARN marca el mensaje como advertencia para resaltar el caso importante.
 
