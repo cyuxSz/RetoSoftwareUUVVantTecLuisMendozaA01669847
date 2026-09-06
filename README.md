@@ -41,3 +41,20 @@ Terminal 2:
 ```bash
 ros2 run water_leak_detector water_leak_detector_node
 ```
+
+## Referencias
+
+Open Robotics. (s. f.-a). *Creating a workspace*. ROS 2 Documentation.
+https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html
+
+Open Robotics. (s. f.-b). *std_msgs*. ROS 2 Documentation.
+https://docs.ros.org/en/jazzy/p/std_msgs
+
+Open Robotics. (s. f.-c). *Understanding nodes*. ROS 2 Documentation.
+https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html
+
+Open Robotics. (s. f.-d). *Understanding topics*. ROS 2 Documentation.
+https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html
+
+Open Robotics. (s. f.-e). *Writing a simple publisher and subscriber (C++)* . ROS 2 Documentation.
+https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html
