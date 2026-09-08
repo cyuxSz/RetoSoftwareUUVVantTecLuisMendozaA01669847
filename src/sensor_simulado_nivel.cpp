@@ -1,50 +1,59 @@
 // Luis Eduardo Mendoza Menendez A01669847
-// Simula un sensor de agua publicando un valor booleano cada 2 segundos, alternando entre "sin fuga" y "con fuga".
+// Copia de sensor_simulado.cpp  en vez de un booleano, publica un nivel de agua (0.0 a 1.0) con ruido, para poder probar escenarios
+// de valores cercanos al limite y ruido, que no tienen sentido con un simple true/false.
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/bool.hpp"
+#include "std_msgs/msg/float32.hpp"
+#include <random>
 
-using namespace std::chrono_literals; // permite escribir "2s" en vez de rclcpp::Duration(2s)
-using std_msgs::msg::Bool; //para escribir unicamente bool en lugar de std_msgs::msg::(bool) mas compacto de leer
+using namespace std::chrono_literals;
+using std_msgs::msg::Float32;
 
-// Un nodo en rclcpp se define como una clase que hereda de rclcpp::Node.
-class SensorSimulado : public rclcpp::Node {
+class SensorSimuladoNivel : public rclcpp::Node {
 public:
-    SensorSimulado() : Node("sensor_simulado") {
-        publicador_ = this->create_publisher<Bool>("water_sensor", 10); // crea un publicador de mensajes booleanos en el topico "water_sensor"
+    SensorSimuladoNivel()
+        : Node("sensor_simulado_nivel"),
+          generador_(std::random_device{}()),   // para generar la aleatoridad
+          ruido_(-0.05f, 0.05f) {                // distribucion uniforme entre -0.05 y +0.05
 
-        // create_wall_timer(intervalo, funcion_callback) ejecuta funcion_callback cada "intervalo" de tiempo, de forma repetida, mientras el nodo este vivo.
-        // std::bind() conecta el temporizador con el metodo publicar_lectura() de esta misma clase.
+        publicador_ = this->create_publisher<Float32>("water_level", 10);
+
         temporizador_ = this->create_wall_timer(
-            2s, std::bind(&SensorSimulado::publicar_lectura, this));
+            2s, std::bind(&SensorSimuladoNivel::publicar_lectura, this));
     }
 
 private:
     void publicar_lectura() {
-        auto mensaje = Bool();
+        contador_++;
 
-        // Alterna entre falso y verdadero en cada llamada, para simular que a veces hay fuga y a veces no.
-        // hay_fuga_ es una variable de instancia que recuerda su valor entre llamadas.
-        hay_fuga_ = !hay_fuga_;
-        mensaje.data = hay_fuga_;
+        // Cada 5 lecturas simula una fuga, el resto del tiempo sin fuga. modulo da el residuo de la
+        // division; "contador_ % 5 == 0" es verdadero una vez de cada 5 vueltas.
+        float nivel_base = (contador_ % 5 == 0) ? 0.85f : 0.15f;
+
+        // ruido_(generador_) saca un numero aleatorio nuevo cada vez, dentro
+        // del rango que se configuro (-0.05 a +0.05), simulando la imprecision normal de un sensor.
+        float nivel_con_ruido = nivel_base + ruido_(generador_);
+
+        auto mensaje = Float32();
+        mensaje.data = nivel_con_ruido;
         publicador_->publish(mensaje);
 
-        // RCLCPP_INFO es la forma estandar de imprimir un mensaje de registro en ROS 2, en vez de usar std::cout
-        //  this->get_logger() asocia el mensaje con el nombre de este nodo en la salida de consola.
-        RCLCPP_INFO(this->get_logger(), "%s",
-                    mensaje.data ? "Agua detectada" : "Sin agua");
+        RCLCPP_INFO(this->get_logger(), "%.3f", nivel_con_ruido);
     }
 
-    rclcpp::Publisher<Bool>::SharedPtr publicador_;
+    rclcpp::Publisher<Float32>::SharedPtr publicador_;
     rclcpp::TimerBase::SharedPtr temporizador_;
-    bool hay_fuga_ = false;
+
+    // Motor generador de numeros aleatorios  y la distribucion que define el rango.
+    std::mt19937 generador_;
+    std::uniform_real_distribution<float> ruido_;
+
+    int contador_ = 0;
 };
 
 int main(int argc, char *argv[]) {
-    rclcpp::init(argc, argv);              // inicializa ROS 2
-    rclcpp::spin(std::make_shared<SensorSimulado>());
-    // rclcpp::spin(nodo) mantiene el nodo "vivo" y escuchando eventos
-    // (en este caso,  el temporizador) hasta que se interrumpa manualmente (Ctrl+C).
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<SensorSimuladoNivel>());
     rclcpp::shutdown();
     return 0;
 }
