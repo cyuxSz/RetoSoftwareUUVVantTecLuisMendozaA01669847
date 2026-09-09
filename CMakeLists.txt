@@ -17,9 +17,17 @@ ament_target_dependencies(sensor_simulado rclcpp std_msgs)
 add_executable(water_leak_detector_node src/water_leak_detector_node.cpp)
 ament_target_dependencies(water_leak_detector_node rclcpp std_msgs)
 
+add_executable(sensor_simulado_nivel src/sensor_simulado_nivel.cpp)
+ament_target_dependencies(sensor_simulado_nivel rclcpp std_msgs)
+
+add_executable(water_leak_detector_node_nivel src/water_leak_detector_node_nivel.cpp)
+ament_target_dependencies(water_leak_detector_node_nivel rclcpp std_msgs)
+
 install(TARGETS
   sensor_simulado
   water_leak_detector_node
+  sensor_simulado_nivel
+  water_leak_detector_node_nivel
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
