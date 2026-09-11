@@ -28,7 +28,7 @@ colcon build --packages-select water_leak_detector
 source install/setup.bash
 ```
 
-## Ejecutar
+## Ejecutar fase 2
 
 Desde cualquier terminal donde ya hayas hecho previamente `source install/setup.bash`:
 
@@ -73,6 +73,20 @@ Se observó que el nivel nunca llega a ser exactamente 0.15 o 0.85, sino que
 varía un poco en cada publicación, y aun así el detector clasificó
 correctamente en todos los casos observados, ya que el ruido nunca fue
 suficiente para cruzar el umbral de 0.5 por accidente.
+
+## Ejecutar fase 3
+
+Desde cualquier terminal donde ya hayas hecho previamente `source install/setup.bash`:
+
+Terminal 1:
+```bash
+ros2 run water_leak_detector sensor_simulado_nivel
+```
+
+Terminal 2:
+```bash
+ros2 run water_leak_detector water_leak_detector_node_nivel
+```
 
 ## Referencias
 
