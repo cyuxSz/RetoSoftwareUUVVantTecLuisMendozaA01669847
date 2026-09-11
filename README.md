@@ -42,6 +42,21 @@ Terminal 2:
 ros2 run water_leak_detector water_leak_detector_node
 ```
 
+## Fase 3 (Pruebas realizadas) 
+
+Primeramente como se solicitó hacer pruebas de mediciones de cuando no hay agua, si hay, valores cercanos al limite, se migró el sensor de un valor booleano a un nivel continuo (`std_msgs/Float32`,
+rango 0.0-1.0) con un umbral de 0.5, ya que estas mediciones no pueden ser realizadas con un `true`/`false`. 
+
+En este caso los nuevos nodos funcionan de la siguiente manera: 
+- **sensor_simulado_nivel**: publica un nivel de agua (`Float32`, 0.0-1.0)
+  con ruido en `/water_level`.
+- **water_leak_detector_node_nivel**: se suscribe a `/water_level`, compara
+  contra un umbral de 0.5, y publica el estatus en `/leak_status_nivel`.
+
+Los nodos originales (`sensor_simulado`, `water_leak_detector_node`, con
+`Bool`) se conservan sin cambios de la Fase 2.
+
+
 ## Referencias
 
 Open Robotics. (s. f.-a). *Creating a workspace*. ROS 2 Documentation.
@@ -57,4 +72,5 @@ Open Robotics. (s. f.-d). *Understanding topics*. ROS 2 Documentation.
 https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html
 
 Open Robotics. (s. f.-e). *Writing a simple publisher and subscriber (C++)* . ROS 2 Documentation.
-https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html
+https://docs.ros.org/en/jazzy/Tutorials/Be 65
+ginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html
