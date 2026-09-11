@@ -27,22 +27,22 @@ private:
 
         if (lectura->data >= UMBRAL_FUGA) {
             mensaje_salida.data = "Fuga";
-            RCLCPP_WARN(this->get_logger(), "Nivel %.3f >= umbral %.2f. Hay fuga",
+            RCLCPP_WARN(this->get_logger(), "Nivel del agua:  %.3f. Hay fuga",
                         lectura->data, UMBRAL_FUGA);
         } else {
             mensaje_salida.data = "Sin fuga";
-            RCLCPP_INFO(this->get_logger(), "Nivel %.3f < umbral %.2f. Sin fuga",
+            RCLCPP_INFO(this->get_logger(), "Nivel del agua:  %.3f. Sin fuga",
                         lectura->data, UMBRAL_FUGA);
         }
 
         publicador_estado_->publish(mensaje_salida);
     }
 
-    // Se usa "static constexpr" por eficiencia y diseno:
+    // Se usa "static constexpr" por eficiencia:
     // static: La constante pertenece a la clase, no a cada instancia individual.
-    // constexpr: Se evalua en tiempo de compilacion. A diferencia de "const", 
-    // esto nos permite inicializar valores decimales (float o double) directamente dentro 
-    // de la clase sin tener que definirlos externamente en el archivo.
+    // constexpr: Se evalua en tiempo de compilacion. A diferencia de const,
+    // esto nos permite inicializar valores float o double directamente dentro
+    // de la clase sin tener que definirlos externamente en este archivo.
     static constexpr float UMBRAL_FUGA = 0.5f;
 
     rclcpp::Publisher<String>::SharedPtr publicador_estado_;
@@ -55,3 +55,15 @@ int main(int argc, char *argv[]) {
     rclcpp::shutdown();
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
