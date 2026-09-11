@@ -56,6 +56,23 @@ En este caso los nuevos nodos funcionan de la siguiente manera:
 Los nodos originales (`sensor_simulado`, `water_leak_detector_node`, con
 `Bool`) se conservan sin cambios de la Fase 2.
 
+**Prueba 1 Sin agua:** se publicó manualmente un nivel de 0.1 en
+`/water_sensor_nivel`. El nodo respondió correctamente con "Sin fuga".
+
+**Prueba 2 Con agua:** se publicó un nivel de 0.9. El nodo respondió
+correctamente con "Hay fuga".
+
+**Prueba 3 Valores cercanos al límite:** se probaron los valores 0.49
+(justo debajo del umbral) y 0.51 (justo arriba). El primero dio "Sin fuga" y
+el segundo "Hay fuga", confirmando que la comparación funciona exactamente
+donde se espera, sin margen de error de ningún lado.
+
+**Prueba 4 Mediciones con ruido:** se dejó corriendo el nodo
+`sensor_simulado_nivel`, que agrega ruido aleatorio (± 0.05) a cada lectura.
+Se observó que el nivel nunca llega a ser exactamente 0.15 o 0.85, sino que
+varía un poco en cada publicación, y aun así el detector clasificó
+correctamente en todos los casos observados, ya que el ruido nunca fue
+suficiente para cruzar el umbral de 0.5 por accidente.
 
 ## Referencias
 
