@@ -28,11 +28,11 @@ private:
         if (lectura->data >= UMBRAL_FUGA) {
             mensaje_salida.data = "Fuga";
             RCLCPP_WARN(this->get_logger(), "Nivel del agua:  %.3f. Hay fuga",
-                        lectura->data, UMBRAL_FUGA);
+                        lectura->data);
         } else {
             mensaje_salida.data = "Sin fuga";
             RCLCPP_INFO(this->get_logger(), "Nivel del agua:  %.3f. Sin fuga",
-                        lectura->data, UMBRAL_FUGA);
+                        lectura->data);
         }
 
         publicador_estado_->publish(mensaje_salida);
