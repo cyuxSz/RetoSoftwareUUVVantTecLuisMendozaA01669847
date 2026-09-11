@@ -7,7 +7,7 @@ Autor: Luis Eduardo Mendoza Menendez A01669847
 - **sensor_simulado**: publica una lectura booleana en `/water_sensor`
   cada 2 segundos, alternando entre falso/verdadero.
 - **water_leak_detector_node**: se suscribe a `/water_sensor`, evalúa
-  si hay fuga, y publica "OK" o "LEAK" en `/leak_status`.
+  si hay fuga, y publica el estatus en `/leak_status`.
 
 ## Requisitos
 
